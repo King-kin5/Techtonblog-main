@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Techctolog</title>
+  <style>
+    /* General Styles */
+    body {
+      background-color: #1a202c;
+      color: #38b2ac;
+      font-family: "Courier New", Courier, monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      color: #68d391;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #9ae6b4;
+      text-decoration: underline;
+    }
+
+    h1, h2 {
+      margin: 0;
+    }
+
+    /* Navbar */
+    header {
+      background-color: #2d3748;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      gap: 24px;
+    }
+
+    nav li {
+      display: inline;
+    }
+
+    /* Personal Info Section */
+    section {
+      padding: 24px 0;
+    }
+
+    .personal-info {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #4a5568;
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .personal-info img {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      border: 2px solid #68d391;
+      margin-right: 16px;
+    }
+
+    .personal-info h2 {
+      font-size: 1.25rem;
+      color: #38b2ac;
+    }
+
+    /* Blog Posts Section */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px;
+    }
+
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    article {
+      background-color: #2d3748;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    article h2 {
+      font-size: 1.5rem;
+      color: #68d391;
+      margin-bottom: 8px;
+    }
+
+    article p {
+      color: #a0aec0;
+      margin-bottom: 16px;
+    }
+
+    article a {
+      color: #38b2ac;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav>
+      <h1>My Blog</h1>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/about">About Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Personal Info Section -->
+  <section>
+    <div class="personal-info">
+      <img 
+        src="/static/images/techton.jpg" 
+        alt="My Photo">
+      <div>
+        <h2>TECHTON</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Blog Posts Section -->
+  <main>
+    <section class="posts">
+      {{range .Posts}}
+      <article>
+        <h2>{{.Title}}</h2>
+        <p>{{.CreatedAt.Format "Jan 2, 2006"}}</p>
+        <a href="/post?id={{.ID}}">Read More</a>
+      </article>
+      {{end}}
+    </section>
+  </main>
+</body>
+</html>

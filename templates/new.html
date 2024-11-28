@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #1a202c;
+            color: #38b2ac;
+            font-family: "Courier New", Courier, monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2d3748;
+            color: #68d391;
+            padding: 24px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        main {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 16px;
+        }
+
+        form {
+            background-color: #2d3748;
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #9ae6b4;
+        }
+
+        input[type="text"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 2px solid #4a5568;
+            border-radius: 4px;
+            background-color: #1a202c;
+            color: #38b2ac;
+            font-size: 1rem;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #68d391;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: #38b2ac;
+            color: #1a202c;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #68d391;
+        }
+
+        a {
+            display: block;
+            margin-top: 24px;
+            text-align: center;
+            color: #9ae6b4;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Create New Post</h1>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <form action="/new" method="post" enctype="multipart/form-data" onsubmit="prepareBlocks()">
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" required>
+
+            <div id="content-blocks">
+                <!-- JavaScript will dynamically add content blocks here -->
+            </div>
+
+            <button type="button" onclick="addTextBlock()">Add Text Block</button>
+            <button type="button" onclick="addImageBlock()">Add Image Block</button>
+
+            <!-- Hidden field to store blocks JSON -->
+            <input type="hidden" name="blocks" id="blocks">
+
+            <button type="submit">Submit Post</button>
+        </form>
+
+        <script>
+            // Array to store the blocks
+            let blocks = [];
+
+            function addTextBlock() {
+                const container = document.getElementById("content-blocks");
+
+                const blockDiv = document.createElement("div");
+                blockDiv.className = "block";
+                blockDiv.innerHTML = `
+                    <label>Text Block:</label>
+                    <textarea class="block-content" data-type="paragraph" required></textarea>
+                `;
+                container.appendChild(blockDiv);
+            }
+
+            function addImageBlock() {
+                const container = document.getElementById("content-blocks");
+
+                const blockDiv = document.createElement("div");
+                blockDiv.className = "block";
+                blockDiv.innerHTML = `
+                    <label>Image Block:</label>
+                    <input type="file" class="block-content" data-type="image" accept="image/*">
+                `;
+                container.appendChild(blockDiv);
+            }
+
+            function prepareBlocks() {
+                blocks = [];
+                const contentBlocks = document.querySelectorAll(".block-content");
+
+                contentBlocks.forEach((block) => {
+                    const type = block.getAttribute("data-type");
+                    let content = null;
+
+                    if (type === "paragraph") {
+                        content = block.value.trim();
+                    } else if (type === "image") {
+                        content = block.files.length > 0 ? block.files[0].name : "";
+                    }
+
+                    if (content) {
+                        blocks.push({ type, content });
+                    }
+                });
+
+                // Set the JSON string of blocks to the hidden input
+                document.getElementById("blocks").value = JSON.stringify(blocks);
+            }
+        </script>
+
+        <a href="/home">Back to Home</a>
+    </main>
+</body>
+</html>

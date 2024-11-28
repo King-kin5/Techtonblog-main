@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - My Blog</title>
+  <style>
+    /* General Styles */
+    body {
+      background-color: #1a202c;
+      color: #38b2ac;
+      font-family: "Courier New", Courier, monospace;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin: 0;
+    }
+
+    /* Header */
+    header {
+      background-color: #2d3748;
+      color: #68d391;
+      text-align: center;
+      padding: 24px 0;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    /* Main Section */
+    main {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 16px;
+    }
+
+    form {
+      background-color: #2d3748;
+      border-radius: 8px;
+      padding: 24px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 8px;
+      color: #9ae6b4;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 16px;
+      border: 2px solid #4a5568;
+      border-radius: 4px;
+      background-color: #1a202c;
+      color: #38b2ac;
+      font-size: 1rem;
+    }
+
+    input[type="password"]:focus {
+      border-color: #68d391;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      background-color: #38b2ac;
+      color: #1a202c;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #68d391;
+    }
+  </style>
+  <script>
+    function showAlert() {
+      alert("Password is wrong. Please try again.");
+    }
+
+    // Function to handle form submission
+    async function handleSubmit(event) {
+      event.preventDefault(); // Prevent default form submission
+      const formData = new FormData(event.target); // Get form data
+
+      const response = await fetch(event.target.action, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include' // Include cookies in the request
+      });
+
+      if (response.status === 200) {
+        // Redirect to the admin page if login is successful
+        window.location.href = '/admin';
+      } else {
+        // Show alert if the password is incorrect
+        showAlert();
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <h1>Admin Login</h1>
+  </header>
+
+  <!-- Login Form -->
+  <main>
+    <form method="post" action="/login" onsubmit="handleSubmit(event)">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Login</button>
+    </form>
+  </main>
+</body>
+</html>
